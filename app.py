@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, Response
+from flask import Flask, render_template
 import os
 
 from sources import *
