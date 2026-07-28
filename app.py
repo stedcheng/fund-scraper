@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, Response
 import os
 
-from companies import *
+from sources import *
 
 app = Flask(__name__)
 app.register_blueprint(axa_bp)
