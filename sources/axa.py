@@ -11,7 +11,7 @@ def axa_landing_page():
         {"name": "CSV", "url": "/axa/csv"},
         {"name": "Table", "url": "/axa/table"}
     ]
-    return render_template("display_links.html", links = links)
+    return render_template("display_formats.html", links = links)
 
 def get_axa_fund_values():
     url = "https://www.axa.com.ph/bin/public/ecomm/fundtable/prices"

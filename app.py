@@ -8,22 +8,21 @@ app.register_blueprint(axa_bp)
 app.register_blueprint(sunlife_bp)
 app.register_blueprint(investa_bp)
 
-investa_fund_codes = ["PHMF:MTPHMM1", "PHMF:ALFMMFU"]
-
 @app.route("/")
 def home():
-    links = [
-        {"name": "Sun Life", "url": "/sunlife"},
-        {"name": "AXA", "url": "/axa"},
+    fund_details = [
+        {"name": "Sun Life VUL Funds", "code": "Sun Life", "url": "/sunlife"},
+        {"name": "AXA VUL Funds", "code": "AXA", "url": "/axa"},
     ]
 
     # Add one link per fund code
-    for code in investa_fund_codes:
-        links.append({
-            "name": f"{code} via Investa",
+    for name, code in sorted_investa_fund_names_codes.items():
+        fund_details.append({
+            "name": f"{name} (via Investa)",
+            "code": code,
             "url": f"/investa/{code}"
         })
-    return render_template("display_links.html", links = links)
+    return render_template("display_funds.html", fund_details = fund_details)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

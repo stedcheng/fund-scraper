@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Funds</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    </head>
+
+    <body>
+        <h1>Funds</h1>
+        <table>
+            {% for fund_detail in fund_details %}
+            <tr>
+                <td><class="fund">{{ fund_detail.name }}</class></td>
+                <td><a href="{{ fund_detail.url }}" class="fund">{{ fund_detail.code }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

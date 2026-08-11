@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Format Options</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    </head>
+
+    <body>
+        <h1>Format Options</h1>
+        {% for link in links %}
+            <a href="{{ link.url }}" class="format">{{ link.name }}</a>
+        {% endfor %}
+    </body>
+</html>

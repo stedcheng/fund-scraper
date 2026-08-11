@@ -25,7 +25,7 @@ def sunlife_landing_page():
         {"name": "CSV", "url": "/sunlife/csv"},
         {"name": "Table", "url": "/sunlife/table"}
     ]
-    return render_template("display_links.html", links = links)
+    return render_template("display_formats.html", links = links)
     
 def get_sunlife_fund_values():
     url = "https://www.sunlife.com.ph/funds/navprice/vul/latest"
