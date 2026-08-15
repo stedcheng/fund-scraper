@@ -4,15 +4,15 @@ import os
 from sources import *
 
 app = Flask(__name__)
-app.register_blueprint(axa_bp)
-app.register_blueprint(sunlife_bp)
-app.register_blueprint(investa_bp)
+for bp in [axa_bp, sunlife_bp, investa_bp, bdo_bp]:
+    app.register_blueprint(bp)
 
 @app.route("/")
 def home():
     fund_details = [
         {"name": "Sun Life VUL Funds", "code": "Sun Life", "url": "/sunlife"},
         {"name": "AXA VUL Funds", "code": "AXA", "url": "/axa"},
+        {"name": "BDO Funds", "code": "BDO", "url": "/bdo"}
     ]
 
     # Add one link per fund code
