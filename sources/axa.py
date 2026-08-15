@@ -26,6 +26,7 @@ def get_axa_fund_values_json():
 axa_table_indices = ["fundName", "fundCode"]
 axa_table_metrics = ["currency", "orderPrice", "bidPrice", "return1Year", "return3Year", "return5Year"]
 
+# We won't use these for now
 axa_table_indices_display = [
     ("Fund", "Name"),
     ("Fund", "Code")
@@ -38,7 +39,6 @@ axa_table_metrics_display = [
     ("Annualized Return", "3 Years"),
     ("Annualized Return", "5 Years")
 ]
-
 
 def get_axa_fund_values_df():
     json = get_axa_fund_values()
@@ -67,5 +67,4 @@ def get_axa_fund_values_csv():
 @axa_bp.route("/table")
 def get_axa_fund_values_table():
     df = get_axa_fund_values_df()
-    df.columns = pd.MultiIndex.from_tuples(axa_table_indices_display + axa_table_metrics_display)
     return df.to_html(index = False)

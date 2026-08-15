@@ -11,6 +11,7 @@ sunlife_table_columns = [
     "fundYoyVal", "fundYtdVal"
 ]
 
+# We won't use this for now
 sunlife_table_display = [
     ("Fund", "Name"), ("Fund", "Code"), ("Fund", "Weekly"), ("Fund", "Risk"),
     ("Date", "Date"), ("Date", "Ingenium"),
@@ -67,5 +68,4 @@ def get_sunlife_fund_values_csv():
 @sunlife_bp.route("/table")
 def get_sunlife_fund_values_table():
     df = get_sunlife_fund_values_df()
-    df.columns = pd.MultiIndex.from_tuples(sunlife_table_display)
     return df.to_html(index = False)
