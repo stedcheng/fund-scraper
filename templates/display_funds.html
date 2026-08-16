@@ -6,12 +6,32 @@
     </head>
 
     <body>
-        <h1>Funds</h1>
+        <h1>Institution-Specific Funds</h1>
         <table>
-            {% for fund_detail in fund_details %}
             <tr>
-                <td><class="fund">{{ fund_detail.name }}</class></td>
-                <td><a href="{{ fund_detail.url }}" class="fund">{{ fund_detail.code }}</a></td>
+                <th>Name</th>
+                <th>Link</th>
+            </tr>
+            {% for fd in institution_fund_details %}
+            <tr>
+                <td><class="fund">{{ fd.name }}</class></td>
+                <td><a href="{{ fd.url }}" class="fund">{{ fd.code }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h1>Funds in Investment Platforms</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Platform</th>
+                <th>Link</th>
+            </tr>
+            {% for fd in inv_platforms_fund_details %}
+            <tr>
+                <td><class="fund">{{ fd.name }}</class></td>
+                <td>{{ fd.platform }} </td>
+                <td><a href="{{ fd.url }}" class="fund">{{ fd.code }}</a></td>
             </tr>
             {% endfor %}
         </table>

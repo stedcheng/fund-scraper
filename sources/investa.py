@@ -6,8 +6,11 @@ import pytz
 
 investa_bp = Blueprint("investa", __name__, url_prefix = "/investa")
 
-df = pd.read_csv("sources/investa_funds.csv")
-name_code = df["Fund Name"].apply(lambda x: x.split("   ")).apply(pd.Series).rename(columns = {0: "name", 1: "code"})
+# Source: https://www.investa.ph/Fund/FundEasyView
+# There is an API, but you need to make a POST request, and cookies are also needed
+# https://webapi.investa.ph/InvestaApi/MutualFund/GetAllFundEasyView
+df_fund_codes = pd.read_csv("sources/investa_funds.csv")
+name_code = df_fund_codes["Fund Name"].apply(lambda x: x.split("   ")).apply(pd.Series).rename(columns = {0: "name", 1: "code"})
 code = name_code["code"].apply(lambda x: x.split(" ")).apply(pd.Series).rename(columns = {0: "code", 1: "site"})
 name_code_split = pd.concat([name_code["name"], code["code"]], axis = 1)
 
@@ -37,13 +40,13 @@ def get_investa_fund_values(fund_code):
 
 @investa_bp.route("/<fund_code>/json")
 def get_investa_fund_values_json(fund_code):
-    json = get_investa_fund_values(fund_code)
-    return jsonify(json)
+    json_data = get_investa_fund_values(fund_code)
+    return jsonify(json_data)
 
 def get_investa_fund_values_df(fund_code):
-    json = get_investa_fund_values(fund_code)
+    json_data = get_investa_fund_values(fund_code)
     df = pd.DataFrame({
-        k: v for k, v in json.items() if isinstance(v, list)
+        k: v for k, v in json_data.items() if isinstance(v, list)
     })
     df["t_2"] = df["t"].apply(lambda ts: datetime.datetime.fromtimestamp(ts, tz = pytz.timezone("UTC")).strftime("%Y-%m-%d"))
     return df

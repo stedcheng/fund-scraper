@@ -33,17 +33,17 @@ def get_bdo_fund_values():
 
 @bdo_bp.route("/json")
 def get_bdo_fund_values_json():
-    json = get_bdo_fund_values()
-    return jsonify(json)
+    json_data = get_bdo_fund_values()
+    return jsonify(json_data)
 
 bdo_table_columns = [
-    "currencyType", "dateUpdated", "fundCode", "fundName", "fundType", "fundUrl", "minimumAmount", "price", "redemptionDate", ""
+    "currencyType", "dateUpdated", "fundCode", "fundName", "fundType", "fundUrl", "minimumAmount", "price", "redemptionDate",
     "subscriptionDate", "toolTip", "yearOnYearReturn", "yearToDate"
 ]
 
 def get_bdo_fund_values_df():
-    json = get_bdo_fund_values()
-    df = pd.DataFrame(json["dataList"])
+    json_data = get_bdo_fund_values()
+    df = pd.DataFrame(json_data["dataList"])
     df = df[bdo_table_columns]
     return df
 

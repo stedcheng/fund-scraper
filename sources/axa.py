@@ -20,8 +20,8 @@ def get_axa_fund_values():
 
 @axa_bp.route("/json")
 def get_axa_fund_values_json():
-    json = get_axa_fund_values()
-    return jsonify(json)
+    json_data = get_axa_fund_values()
+    return jsonify(json_data)
 
 axa_table_indices = ["fundName", "fundCode"]
 axa_table_metrics = ["currency", "orderPrice", "bidPrice", "return1Year", "return3Year", "return5Year"]
@@ -41,12 +41,12 @@ axa_table_metrics_display = [
 ]
 
 def get_axa_fund_values_df():
-    json = get_axa_fund_values()
+    json_data = get_axa_fund_values()
     df_list = []
-    for i in range(len(json)):
-        if json[i]["groupName"] != "Top Five Fund":
-            df_group = pd.DataFrame(json[i]["groupData"])
-            df_group["groupName"] = json[i]["groupName"]
+    for i in range(len(json_data)):
+        if json_data[i]["groupName"] != "Top Five Fund":
+            df_group = pd.DataFrame(json_data[i]["groupData"])
+            df_group["groupName"] = json_data[i]["groupName"]
             df_list.append(df_group)
 
     df = pd.concat(df_list)
