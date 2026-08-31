@@ -4,6 +4,8 @@ import pandas as pd
 import datetime
 import json
 import os
+import logging
+logging.basicConfig(level=logging.INFO)
 
 sunlife_bp = Blueprint("sunlife", __name__, url_prefix = "/sunlife")
 
@@ -58,7 +60,8 @@ def get_sunlife_fund_values():
         "language": "en-us",
     }
     response = requests.post(url, params = params, headers = headers)
-    print(response.text)
+    print(response.text, flush = True)
+    logging.info("Response text: %s", response.text[:300])
     return response.json()
 
 @sunlife_bp.route("/json")
