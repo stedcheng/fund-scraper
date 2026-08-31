@@ -6,7 +6,6 @@ import json
 import os
 
 sunlife_bp = Blueprint("sunlife", __name__, url_prefix = "/sunlife")
-cache = {}
 
 sunlife_table_columns = [
     "fundName", "fundCode", "weekly", "risk",
@@ -22,17 +21,6 @@ sunlife_table_display = [
     ("Value", "Currency"), ("Value", "Value"),
     ("Return", "YoY"), ("Return", "YtD")
 ]
-
-def save_cache_to_file():
-    with open("cache/sunlife.json", "w") as f:
-        json.dump(cache["sunlife"], f)
-
-def load_cache_from_file():
-    if os.path.exists("cache/sunlife.json"):
-        with open("cache/sunlife.json") as f:
-            cache["sunlife"] = json.load(f)
-
-load_cache_from_file()
 
 @sunlife_bp.route("/")
 def sunlife_landing_page():
@@ -53,42 +41,16 @@ def get_sunlife_fund_values():
         "version": "1",
         "language": "en-us",
     }
-    response = requests.post(url, params=params, headers=headers)
-    try:
-        data = response.json()
-        cache["sunlife"] = {
-            "timestamp": datetime.datetime.now().isoformat(),
-            "data": data,
-        }
-        save_cache_to_file()
-    except ValueError:
-        data = None
-        status_code = response.status_code
-        body = response.text[:500]
-        error_dict = {
-            "data": data, "status_code": status_code, "body": body
-        }
-        return error_dict
+    response = requests.post(url, params = params, headers = headers)
+    return response.json()
 
 @sunlife_bp.route("/json")
 def get_sunlife_fund_values_json():
-    if "sunlife" not in cache:
-        get_sunlife_fund_values()
-        return jsonify(cache["sunlife"])
-    else:
-        ts = cache["sunlife"]["timestamp"]
-        cache_date = datetime.datetime.fromisoformat(ts).date()
-        today = datetime.date.today()
-        if cache_date == today:
-            return jsonify(cache["sunlife"])
-        else:
-            get_sunlife_fund_values()
-            return jsonify(cache["sunlife"])
+    json_data = get_sunlife_fund_values()
+    return jsonify(json_data)
 
 def get_sunlife_fund_values_df():
-    if "sunlife" not in cache:
-        get_sunlife_fund_values()
-    json_data = cache["sunlife"]["data"]
+    json_data = get_sunlife_fund_values()
     df_list = []
     for i in range(len(json_data)):
         df_group = pd.DataFrame(list(json_data.values())[i])
