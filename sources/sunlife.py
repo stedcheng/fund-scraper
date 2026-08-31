@@ -34,14 +34,31 @@ def sunlife_landing_page():
 def get_sunlife_fund_values():
     url = "https://www.sunlife.com.ph/funds/navprice/vul/latest"
     headers = {
-        "accept-language": "en-US,en;q=0.9",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0",
+        'accept': 'text/plain, */*; q=0.01',
+        'accept-language': 'en-US,en;q=0.9,en-PH;q=0.8',
+        # 'content-length': '0',
+        'origin': 'https://www.sunlife.com.ph',
+        'priority': 'u=1, i',
+        'referer': 'https://www.sunlife.com.ph/en/insurance/vul-fund-prices/',
+        'sec-ch-device-memory': '16',
+        'sec-ch-ua': '"Chromium";v="152", "Not?A_Brand";v="24", "Microsoft Edge";v="152"',
+        'sec-ch-ua-arch': '"x86"',
+        'sec-ch-ua-full-version-list': '"Chromium";v="152.0.7977.65", "Not?A_Brand";v="24.0.0.0", "Microsoft Edge";v="152.0.4191.53"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-model': '""',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36 Edg/152.0.0.0',
+        'x-requested-with': 'XMLHttpRequest'
     }
     params = {
         "version": "1",
         "language": "en-us",
     }
     response = requests.post(url, params = params, headers = headers)
+    print(response.text)
     return response.json()
 
 @sunlife_bp.route("/json")
